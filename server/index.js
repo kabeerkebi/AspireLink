@@ -17,12 +17,17 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
     credentials: true,
   })
 );
 app.use(cookieparser());
 // for store the resume pdf
+app.use(
+  express.static(
+    path.join(path.dirname(fileURLToPath(import.meta.url)), "./public")
+  )
+);
+
 app.use(
   express.static(
     path.join(path.dirname(fileURLToPath(import.meta.url)), "./public/pdf")
@@ -34,12 +39,6 @@ app.use(
     path.join(path.dirname(fileURLToPath(import.meta.url)), "./public/images")
   )
 );
-
-app.get("/", (request, response) => {
-  console.log(request);
-  return response.status(234).send("welcome to mern stack ");
-});
-
 // the midlleware from routes
 app.use("/apis/register", cadidateRegister);
 app.use("/apis/logindata", cadidatelogin);
@@ -49,6 +48,13 @@ app.use("/apis/postjob", potjobs);
 app.use("/apis/admin", admintable);
 app.use("/apis/adminlogin", adminlogin);
 app.use("/apis/resume", resume);
+
+
+
+app.get('*', (req, res) => {
+  res.sendFile(path.dirname(fileURLToPath(import.meta.url)), "./public/pdf");
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
