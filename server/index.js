@@ -52,7 +52,7 @@ app.use("/apis/resume", resume);
 
 
 app.get('*', (req, res) => {
-  res.sendFile(path.dirname(fileURLToPath(import.meta.url)), "./public/pdf");
+  res.sendFile(path.dirname(fileURLToPath(import.meta.url)), "./public/index.html");
 });
 
 
