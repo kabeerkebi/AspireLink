@@ -2,20 +2,21 @@ import express from "express";
 import { Employerlogin } from "../../models/employer.model.js";
 import multer from "multer";
 import mongoose from "mongoose";
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "C:\\myCooding\\project\\portal\\server\\public\\pdf");
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now();
-    cb(null, `${uniqueSuffix}_${file.originalname}`);
-  },
-});
+import { uploads } from "../../middlewares/resumemulter.js";
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "../../public/pdf");
+//   },
+//   filename: function (req, file, cb) {
+//     const uniqueSuffix = Date.now();
+//     cb(null, `${uniqueSuffix}_${file.originalname}`);
+//   },
+// });
 
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
 const router = express.Router();
 
-router.post("/:id", upload.single("file"), async (req, res) => {
+router.post("/:id", uploads.single("file"), async (req, res) => {
   try {
     const { id } = req.params;
     const formdata = req.body;
